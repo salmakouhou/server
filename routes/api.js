@@ -3,6 +3,7 @@ const passport = require("passport");
 const UniversityController = require("../controllers/UniversityController");
 const EstablishmentController = require("../controllers/EstablishmentController");
 const ProjetController = require("../controllers/ProjetController");
+const MotController = require("../controllers/MotController");
 const LaboratoryController = require("../controllers/LaboratoryController");
 const NotificationController = require("../controllers/NotificationController");
 const UserController = require("../controllers/UserController");
@@ -234,6 +235,41 @@ router.delete(
   "/projets/:_id",
   authorize([role.LABORATORY_HEAD]),
   ProjetController.deleteProjet
+);
+
+
+
+
+/************* Mots endpoints ***********/
+
+router.post(
+  "/mots",
+  authorize([role.LABORATORY_HEAD]),
+  MotController.createMot
+);
+
+router.put(
+  "/mots",
+  authorize([role.LABORATORY_HEAD]),
+  MotController.updateMot
+);
+
+router.get(
+  "/mots/:_id",
+  authorize([role.LABORATORY_HEAD]),
+  MotController.findMot
+);
+
+router.get(
+  "/mots",
+  authorize([role.LABORATORY_HEAD]),
+  MotController.findAllMots
+);
+
+router.delete(
+  "/mots/:_id",
+  authorize([role.LABORATORY_HEAD]),
+  MotController.deleteMot
 );
 
 

@@ -16,6 +16,7 @@ const User = require("../models/user");
 const University = require("../models/university");
 const Establishment = require("../models/establishment");
 const Projet = require("../models/projet");
+const Mot = require("../models/mot");
 const Laboratory = require("../models/laboratory");
 const Team = require("../models/team");
 const FollowedUser = require("../models/followed-user");
@@ -25,6 +26,7 @@ const users = require("./data/users");
 const universities = require("./data/universities");
 const establishments = require("./data/establishments");
 const projets = require("./data/projets");
+const mots = require("./data/mots");
 const laboratories = require("./data/laboratories");
 const teams = require("./data/teams");
 
@@ -34,6 +36,7 @@ const clearData = () =>
         University.deleteMany(),
         Establishment.deleteMany(),
         Projet.deleteMany(),
+        Mot.deleteMany(),
         Laboratory.deleteMany(),
         Team.deleteMany(),
         FollowedUser.deleteMany(),
@@ -112,6 +115,16 @@ const seedProjets = () => Promise.all(
     })
 );
 
+const seedMots = () => Promise.all(
+    mots.map(async (mot) => {
+        const laboratory = await Laboratory.findOne(mot.laboratory);
+        return Mot.create({
+            ...mot,
+            laboratory_id: laboratory._id,
+        });
+    })
+);
+
 const seedLaboratories = () => {
     Promise.all(
         laboratories.map(async (laboratory) => {
@@ -160,6 +173,7 @@ clearData()
     .then(() => timeDelay())
     .then(() => seedEstablishments())
     .then(() => seedProjets())
+    .then(() => seedMots())
     .then(() => timeDelay())
     .then(() => seedLaboratories())
     .then(() => timeDelay())
