@@ -231,6 +231,12 @@ router.get(
   ProjetController.findAllProjets
 );
 
+router.get(
+  "/projetsLab",
+  authorize([role.LABORATORY_HEAD]),
+  ProjetController.getProjectsByLab
+);
+
 router.delete(
   "/projets/:_id",
   authorize([role.LABORATORY_HEAD]),
