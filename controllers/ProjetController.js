@@ -56,6 +56,26 @@ exports.findAllProjets = async (req, resp) => {
   }
 };
 
+exports.getProjectsByLab = async (req, resp) => {
+  const laboratoryAbbreviation = req.param("laboratory_abbreviation");
+  
+  if (!laboratoryAbbreviation) {
+    resp.status(200).send(await Project.find());
+  }
+
+  if (laboratoryAbbreviation) {
+    const laboratory = await Laboratory.findOne({
+      abbreviation: req.param("laboratory_abbreviation"),
+    });
+
+    const projets = await Projet.find({
+      laboratory_id: laboratory._id,
+    });
+    resp.status(200).send(projets);
+  }
+};
+
+
 exports.deleteProjet = async (req, resp) => {
   try {
     const result = await Projet.deleteOne({ _id: req.params._id });
