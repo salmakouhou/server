@@ -140,20 +140,17 @@ exports.findStudentsOfUser = async (req, resp) => {
 };
 
 exports.findStudentsOfLab = async (req, resp) => {
-  const laboratoryAbbreviation = req.param("laboratory_abbreviation");
+ try {
+    const { _id, roles } = req.user;
+    const laboratories = await Laboratory.find({ head_id: _id });
+    const students = await getPhdStudentsOfLaboratory(laboratories, _id);
+    console.log(students.length)
+    return resp.status(200).send({ students });
+  } catch (error) {
+    console.log("ERROR", error);
+    return resp.status(500).send(error);
+  }
   
-  if (!laboratoryAbbreviation) {
-    resp.status(200).send(await PhdStudent.find());
-  }
 
-  if (laboratoryAbbreviation) {
-    const laboratory = await Laboratory.findOne({
-      abbreviation: req.param("laboratory_abbreviation"),
-    });
-
-    const students = await PhdStudent.find({
-      laboratory_id: laboratory._id,
-    });
-    resp.status(200).send(students);
-  }
+ 
 };
