@@ -157,4 +157,3 @@ exports.findStudentsOfLab = async (req, resp) => {
     resp.status(200).send(students);
   }
 };
-};
