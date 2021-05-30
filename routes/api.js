@@ -28,6 +28,16 @@ router.post("/pv/removeElement",PvController.removeElement)
 router.get("/pv/findOne/:_id",PvController.findPvById)
 router.post("/pv/pushFile",PvController.pushFile)
 
+/************Galerie endpoints********************/
+router.post("/galerie", GalerieController.createGalerie);
+router.get("/galerie/:_id", GalerieController.findAll);
+router.get("/galerie/doc/:_id/:_doc", GalerieController.findGalerie);
+router.delete("/galerie/:_id", GalerieController.deleteGalerie);
+router.post("/galerie/removeElement",GalerieController.removeElement)
+router.get("/galerie/findOne/:_id",GalerieController.findGalerieById)
+router.post("/galerie/pushFile",GalerieController.pushFile)
+
+
 
 
 /************* Users endpoints ***********/
