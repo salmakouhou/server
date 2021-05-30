@@ -13,6 +13,7 @@ const role = require("../helpers/role");
 const statisticsHelper = require("../helpers/statistics");
 const PhdStudentController = require("../controllers/PhdStudentController");
 const PvController = require("../controllers/PvController")
+const GalerieController = require("../controllers/GalerieController")
 const BudgetController = require("../controllers/BudgetController")
 const router = express.Router();
 
