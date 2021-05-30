@@ -1,11 +1,13 @@
 const Galerie = require("../models/galerie");
 require('../server.js');
 var mongoose = require('mongoose');
-const firebase = require('../helpers/firebase')
+const firebase = require('../helpers/firebase');
+const { findAllUsersByLab } = require("./UserController");
 
 exports.findAll = async (req, resp) => {
     try {
         const galerie = await Galerie.find({ laboratory_id: mongoose.Types.ObjectId(req.params._id) });
+        console.log(galerie)
         resp.status(200).send(galerie);
     } catch (error) {
         console.log(error);
@@ -21,10 +23,9 @@ exports.createGalerie = async (req, resp) => {
 
     keys.forEach((key) => {
         var file = files[key];
-        if ((key=="photo")&&((file.mimetype == "image/jpeg"))) {
-            photos.push(file);
-        } 
+        photos.push(file)
     })
+    
 
     try {
 
@@ -34,7 +35,8 @@ exports.createGalerie = async (req, resp) => {
             laboratory_id: req.body.laboratory_id
         }
         const response = await Galerie.create(obj);
-        resp.status(200).send(response);
+       
+        resp.status(200).send(true);
     } catch (error) {
         console.log(error);
         resp.status(500).send(error);
