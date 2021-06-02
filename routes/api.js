@@ -368,6 +368,12 @@ router.get(
 
 router.get("/teams/:_id", TeamController.findTeam);
 
+router.get(
+  "/teamsLab",
+  authorize([role.LABORATORY_HEAD]),
+  TeamController.getTeamsByLab
+);
+
 router.delete(
   "/teams/:_id",
   authorize([role.CED_HEAD, role.VICE_CED_HEAD, role.LABORATORY_HEAD, role.TEAM_HEAD]),
