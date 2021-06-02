@@ -87,6 +87,26 @@ exports.findAllTeams = async (req, resp) => {
   }
 };
 
+
+exports.getTeamsByLab = async (req, resp) => {
+  const laboratoryAbbreviation = req.param("laboratory_abbreviation");
+  
+  if (!laboratoryAbbreviation) {
+    resp.status(200).send(await Team.find());
+  }
+
+  if (laboratoryAbbreviation) {
+    const laboratory = await Laboratory.findOne({
+      abbreviation: req.param("laboratory_abbreviation"),
+    });
+
+    const teams = await Team.find({
+      laboratory_id: laboratory._id,
+    });
+    resp.status(200).send(teams);
+  }
+};
+
 exports.deleteTeam = async (req, resp) => {
   try {
    /* const team = await Team.findOne({ _id: req.params._id });
