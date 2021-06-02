@@ -56,6 +56,25 @@ exports.findAllMots = async (req, resp) => {
   }
 };
 
+exports.getMotsByLab = async (req, resp) => {
+  const laboratoryAbbreviation = req.param("laboratory_abbreviation");
+  
+  if (!laboratoryAbbreviation) {
+    resp.status(200).send(await Mot.find());
+  }
+
+  if (laboratoryAbbreviation) {
+    const laboratory = await Laboratory.findOne({
+      abbreviation: req.param("laboratory_abbreviation"),
+    });
+
+    const mots = await Mot.find({
+      laboratory_id: laboratory._id,
+    });
+    resp.status(200).send(mots);
+  }
+};
+
 exports.deleteMot = async (req, resp) => {
   try {
     const result = await Mot.deleteOne({ _id: req.params._id });
