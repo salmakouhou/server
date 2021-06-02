@@ -283,6 +283,12 @@ router.get(
   MotController.findAllMots
 );
 
+router.get(
+  "/motsLab",
+  authorize([role.LABORATORY_HEAD]),
+  MotController.getMotsByLab
+);
+
 router.delete(
   "/mots/:_id",
   authorize([role.LABORATORY_HEAD]),
